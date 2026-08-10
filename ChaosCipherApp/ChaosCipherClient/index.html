@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChaosCipher</title>
+    <link rel="stylesheet" href="styles_horizontal.css">
+    <script src="js/main.js" type="module"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <!----------------------------------------------------------Блок Меню--------------------------------------------------------------------------------------->
+    <header>
+        <div class="logo">
+            <img src="images/Logo.png" alt="">
+            <span>ChaosCipher</span>
+        </div>
+
+        <div class="burger-btn" id="burgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menuContainer">
+
+
+            <select name="system" id="system">
+
+                <option value="lorenz" selected>Logistic map + Lorenz system</option>
+                <option value="rossler">Logistic map + Rössler system</option>
+                <option value="chua">Logistic map + Chua's circuit</option>
+                <option value="duffing">Logistic map + Duffing oscillator</option>
+                <option value="pol">Logistic map + V.D.Pol oscillator</option>
+                <option value="forced">Logistic map + Forced pendulum</option>
+            </select>
+            <select name="data" id="data">
+                <option value="text">&nbsp;Text&nbsp;</option>
+                <option value="file" selected>&nbsp;File&nbsp;</option>
+            </select>
+            <select name="mode" id="mode" disabled>
+                <option value="chars" selected>&nbsp;Chars&nbsp;</option>
+                <option value="bytes">&nbsp;Bytes&nbsp;</option>
+            </select>
+        </div>
+
+
+
+    </header>
+
+    <div class="container">
+
+
+        <!------------------------------------------------------------------------------Блок араметрів системи хаосу------------------------------------------->
+        <section class="parameters" id="lorenz-params">
+            <h2>Logistic + Lorenz System Parameters</h2>
+            <form class="tab-form" action="#" method="post" data-tab-form="">
+                <div class="form-group">
+                    <label for="logisticXLorenz">Logistic X</label>
+                    <input name="logisticXLorenz" id="logisticXLorenz"  type="number" value=0 >
+                    <small class="param-hint">(0;1)</small>
+                </div>
+                <div class="form-group">
+                    <label for="lorenzX">Lorenz X</label>
+                    <input name="lorenzX" id="lorenzX" type="number"  value=0 >
+                    <small class="param-hint">[-20;20]</small>
+                </div>
+                <div class="form-group">
+                    <label for="lorenzY">Lorenz Y</label>
+                    <input name="lorenzY" id="lorenzY" type="number"  value=0 >
+                    <small class="param-hint">[-20;20]</small>
+                </div>
+                <div class="form-group">
+                    <label for="lorenzZ">Lorenz Z</label>
+                    <input name="lorenzZ" id="lorenzZ" type="number"  value=0 >
+                    <small class="param-hint">[0;60]</small>
+                </div>
+                
+            </form>
+        </section>
+        <section class="parameters" id="rossler-params">
+            <h2>Logistic + Rossler System Parameters</h2>
+            <form class="tab-form" action="#" method="post" data-tab-form="">
+                <div class="form-group">
+                    <label for="logisticXRossler">Logistic X</label>
+                    <input name="logisticXRossler" id="logisticXRossler" type="number" step="any" required min="0"
+                        required max="1"  value=0 >
+                    <small class="param-hint">(0;1)</small>
+                </div>
+                <div class="form-group">
+                    <label for="rosslerX">Rossler X</label>
+                    <input name="rosslerX" id="rosslerX" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-15;15]</small>
+                </div>
+                <div class="form-group">
+                    <label for="rosslerY">Rossler Y</label>
+                    <input name="rosslerY" id="rosslerY" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-15;15]</small>
+                </div>
+                <div class="form-group">
+                    <label for="rosslerZ">Rossler Z</label>
+                    <input name="rosslerZ" id="rosslerZ" type="number" step="any"  value=0 >
+                    <small class="param-hint">[0;25]</small>
+                </div>
+            </form>
+        </section>
+        <section class="parameters" id="chua-params">
+            <h2>Logistic + Chua System Parameters</h2>
+            <form class="tab-form" action="#" method="post" data-tab-form="">
+                <div class="form-group">
+                    <label for="logisticXChua">Logistic X</label>
+                    <input name="logisticXChua" id="logisticXChua" type="number" step="any" required min="0"  value=0 >
+                    <small class="param-hint">(0;1)</small>
+                </div>
+                <div class="form-group">
+                    <label for="chuaX">Chua X</label>
+                    <input name="chuaX" id="chuaX" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-3;3]</small>
+                </div>
+                <div class="form-group">
+                    <label for="chuaY">Chua Y</label>
+                    <input name="chuaY" id="chuaY" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-2;2]</small>
+                </div>
+                <div class="form-group">
+                    <label for="chuaZ">Chua Z</label>
+                    <input name="chuaZ" id="chuaZ" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-3; 3]</small>
+                </div>
+            </form>
+
+
+
+        </section>
+        <section class="parameters" id="duffing-params">
+            <h2>Logistic + Duffing oscillator Parameters</h2>
+            <form class="tab-form" action="#" method="post" data-tab-form="">
+                <div class="form-group">
+                    <label for="logisticXDuffing">Logistic X</label>
+                    <input name="logisticXDuffing" id="logisticXDuffing" type="number" step="any" required min="0"
+                        required max="1"  value=0 >
+                    <small class="param-hint">(0;1)</small>
+                </div>
+                <div class="form-group">
+                    <label for="duffingX">Duffing X</label>
+                    <input name="duffingX" id="duffingX" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-2;2]</small>
+                </div>
+                <div class="form-group">
+                    <label for="duffingY">Duffing Y</label>
+                    <input name="duffingY" id="duffingY" type="number" step="any"  value=0 >
+                    <small class="param-hint">[-2;2]</small>
+                </div>
+                <div class="form-group">
+                    <label for="duffingT">Duffing T</label>
+                    <input name="duffingT" id="duffingT" type="number" step="any"  value=0 >
+                    <small class="param-hint">невід'ємне</small>
+                </div>
+
+            </form>
+        </section>
+        <section class="parameters" id="pol-params">
+            <h2>Logistic + Pol oscillator Parameters</h2>
+            <form class="tab-form" action="#" method="post" data-tab-form="">
+                <div class="form-group">
+                    <label for="logisticXPol">Logistic X</label>
+                    <input name="logisticXPol" id="logisticXPol" type="number" required min="0" required max="1"  value=0 >
+                    <small class="param-hint">(0;1)</small>
+                </div>
+                <div class="form-group">
+                    <label for="polX">V.D.Pol X</label>
+                    <input name="polX" id="polX" type="number"  value=0 >
+                    <small class="param-hint">[-3;3]</small>
+                </div>
+                <div class="form-group">
+                    <label for="polY">V.D.Pol Y</label>
+                    <input name="polY" id="polY" type="number"  value=0 >
+                    <small class="param-hint">[-8;8]</small>
+                </div>
+                <div class="form-group">
+                    <label for="polT">V.D.Pol T</label>
+                    <input name="polT" id="polT" type="number"  value=0 >
+                    <small class="param-hint">невід'ємне</small>
+                </div>
+            </form>
+        </section>
+        <section class="parameters" id="forced-params">
+            <h2>Logistic + Forced pendulum Parameters</h2>
+            <form class="tab-form" action="#" method="post" data-tab-form="">
+                <div class="form-group">
+                    <label for="logisticXForced">Logistic X</label>
+                    <input name="logisticXForced" id="logisticXForced" type="number" required min="0" required max="1"  value=0 >
+                    <small class="param-hint">від 0 до 1</small>
+                </div>
+                <div class="form-group">
+                    <label for="forcedX">Forced pend. X</label>
+                    <input name="forcedX" id="forceX" type="number"  value=0 >
+                    <small class="param-hint">[-π;π]</small>
+                </div>
+                <div class="form-group">
+                    <label for="forcedY">Forced pend. Y</label>
+                    <input name="forcedY" id="forceY" type="number"  value=0 >
+                    <small class="param-hint">[-6;6]</small>
+                </div>
+                <div class="form-group">
+                    <label for="forcedT">Forced pend. T</label>
+                    <input name="forcedT" id="forcedT" type="number"  value=0 >
+                    <small class="param-hint">невід'ємне</small>
+                </div>
+            </form>
+        </section>
+        <!----------------------------------------------------------Блок обробки тексту--------------------------------------------------------------------------------------->
+        <section class="operation" id="encrypt-text">
+            <div class="text-wrapper">
+                <div class="original-text" id="original-text">
+                    <div class="text-block-head in-head">
+                        <div class="text-head-left">
+                            <div class="text-dot dot-in"></div>
+                            <span class="text-block-title">Process Text</span>
+                            <span class="text-badge badge-in">Input</span>
+                        </div>
+                        <div class="text-head-actions">
+                            <button class="text-icon-btn" data-action="copy" data-target="original-text-content"
+                                >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                            <button class="text-icon-btn del" data-action="clear" data-target="original-text-content"
+                                data-counter="in-char-count" >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                    <path d="M10 11v6M14 11v6" />
+                                    <path d="M9 6V4h6v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="original-text-content" id="original-text-content"
+                        placeholder="Enter your input text"></textarea>
+                    <div class="text-block-footer in-foot">
+                        <span class="text-char-count" id="in-char-count">0 символів</span>
+                    </div>
+                </div>
+
+                <div class="text-arrow-col">
+                    <div class="text-arrow-ring">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="17 8 21 12 17 16" />
+                            <polyline points="7 8 3 12 7 16" />
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="processed-text" id="processed-text">
+                    <div class="text-block-head out-head">
+                        <div class="text-head-left">
+                            <div class="text-dot dot-out"></div>
+                            <span class="text-block-title">Result Text</span>
+                            <span class="text-badge badge-out">Output</span>
+                        </div>
+                        <div class="text-head-actions">
+                            <button class="text-icon-btn" data-action="copy" data-target="processed-text-content">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                            <button class="text-icon-btn del" data-action="clear" data-target="processed-text-content"
+                                data-counter="out-char-count">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                    <path d="M10 11v6M14 11v6" />
+                                    <path d="M9 6V4h6v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="processed-text-content" id="processed-text-content"
+                        placeholder="Result will appear here..." readonly></textarea>
+                    <div class="text-block-footer out-foot">
+                        <span class="text-char-count" id="out-char-count">0 символів</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons-wrapper-text">
+                <button class="encrypt-text-btn">
+                    <svg viewBox="0 0 24 26" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+
+                    Encrypt</button>
+                <button class="decrypt-text-btn">
+                      <svg viewBox="0 0 24 26" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                        </svg>
+                    Decrypt</button>
+            </div>
+
+            <div class="encrypt-error" role="alert" aria-live="assertive">Помилка при завантаженні</div>
+            <div class="encrypt-progress" aria-hidden="true">
+                <div class="encrypt-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                    aria-valuenow="0"></div>
+                <div class="encrypt-progress-label" aria-hidden="true">Обробка тексту...</div>
+            </div>
+        </section>
+
+        <!----------------------------------------------------------Блок Drop Zone--------------------------------------------------------------------------------------->
+        <section class="operation" id="drop-zone">
+            <div class="dropzone-inner">
+                <input class="file-input" name="file" type="file" accept="" hidden />
+                <div class="dz-upload-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                </div>
+                <div class="dz-title">Перетягніть файл або <span>натисніть для вибору</span></div>
+                <div class="dz-formats">
+                    <span class="dz-tag">PNG</span>
+                    <span class="dz-tag">WAV</span>
+                    <span class="dz-tag">та інші</span>
+                </div>
+               
+                <div class="dz-size-hint">Максимальний розмір файлу: 100МБ</div>
+                <div class="dz-size-hint">Максимальний розмір зобараження: 1920x1080</div>
+                
+                <div class="dz-error" role="alert" aria-live="assertive">Помилка при завантаженні</div>
+                <div class="dz-progress" aria-hidden="true">
+                    <div class="dz-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                        aria-valuenow="0"></div>
+                    <div class="dz-progress-label" aria-hidden="true">Обробка файлу...</div>
+                </div>
+            </div>
+        </section>
+        <!----------------------------------------------------------Блок обробки Файлів--------------------------------------------------------------------------------------->
+        <section class="operation" id="encrypt-file">
+            <div class="file-block-wrap">
+
+                <!-- ORIGINAL FILE -->
+                <div class="file-card in-card" id="original-file">
+                    <div class="file-card-head">
+                        <span class="file-card-title">Original file</span>
+                        <span class="file-card-badge badge-in">Input</span>
+                    </div>
+                    <div class="file-card-body">
+                        <div class="file-icon-wrap" id="orig-icon-wrap">
+                            <svg viewBox="0 0 60 60" fill="none" width="60" height="60">
+                                <rect x="4" y="2" width="40" height="54" rx="5" fill="#eef0ff" stroke="#c5ceff"
+                                    stroke-width="1.5" />
+                                <path d="M32 2v13h12" fill="none" stroke="#c5ceff" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <rect x="10" y="24" width="26" height="3" rx="1.5" fill="#a5b4fc" />
+                                <rect x="10" y="32" width="20" height="3" rx="1.5" fill="#a5b4fc" />
+                                <rect x="10" y="40" width="23" height="3" rx="1.5" fill="#a5b4fc" />
+                            </svg>
+                            <span class="file-ext-badge ext-in" id="orig-ext">FILE</span>
+                        </div>
+                        <div class="file-card-name" id="original-file-name">—</div>
+                        <div class="file-card-meta" id="original-file-meta">—</div>
+                        <!-- старий img залишаємо прихованим для сумісності з JS -->
+                        <img class="original-file-icon" id="original-file-icon" src="images/File.png"
+                            style="display:none;">
+                        <a class="link-download-original" id="link-download-original" style="display:none;">Download
+                            file</a>
+                    </div>
+                </div>
+
+                <!-- RESULT FILE -->
+                <div class="file-card out-card" id="processed-file">
+                    <div class="file-card-head">
+                        <span class="file-card-title">Result file</span>
+                        <span class="file-card-badge badge-out">Output</span>
+                    </div>
+                    <div class="file-card-body">
+                        <!-- Стан: очікування -->
+                        <div id="result-pending">
+                            <div class="file-lock-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#c5c9dc" stroke-width="1.5"
+                                    stroke-linecap="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                            </div>
+                            <div class="file-pending-text">Файл з'явиться<br>після обробки</div>
+                        </div>
+                        <!-- Стан: готово -->
+                        <div id="result-ready" style="display:none;flex-direction:column;align-items:center;gap:10px;">
+                            <div class="file-icon-wrap">
+                                <svg viewBox="0 0 60 60" fill="none" width="60" height="60">
+                                    <rect x="4" y="2" width="40" height="54" rx="5" fill="#e6faf4" stroke="#b2f2d8"
+                                        stroke-width="1.5" />
+                                    <path d="M32 2v13h12" fill="none" stroke="#b2f2d8" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <rect x="10" y="24" width="26" height="3" rx="1.5" fill="#6ee7b7" />
+                                    <rect x="10" y="32" width="20" height="3" rx="1.5" fill="#6ee7b7" />
+                                    <rect x="10" y="40" width="23" height="3" rx="1.5" fill="#6ee7b7" />
+                                </svg>
+                                <span class="file-ext-badge ext-out" id="result-ext">ENC</span>
+                            </div>
+                            <div class="file-card-name" id="processed-file-name">—</div>
+                            <div class="file-card-meta" id="processed-file-meta">—</div>
+                        </div>
+                        <img class="processed-file-icon" id="processed-file-icon" src="images/File.png"
+                            style="display:none;">
+                        <a class="link-download-processed" id="link-download-processed" style="display:none;">Download
+                            file</a>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="file-actions buttons-wrapper-file">
+                    <button class="file-btn file-btn-enc encrypt-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Encrypt
+                    </button>
+                    <button class="file-btn file-btn-dec decrypt-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                        </svg>
+                        Decrypt
+                    </button>
+                    <button class="file-btn file-btn-dl download-btn" id="file-dl-btn" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download
+                    </button>
+                    <button class="file-btn file-btn-rm remove-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="encrypt-error" role="alert" aria-live="assertive">Помилка при завантаженні</div>
+            <div class="encrypt-progress" aria-hidden="true">
+                <div class="encrypt-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                    aria-valuenow="0"></div>
+                <div class="encrypt-progress-label" aria-hidden="true">Обробка файлу...</div>
+            </div>
+        </section>
+        <!----------------------------------------------------------Блок обробки Зображень--------------------------------------------------------------------------------------->
+        <section class="operation" id="encrypt-image">
+            <div class="file-block-wrap">
+
+                <!-- ORIGINAL IMAGE -->
+                <div class="file-card in-card" id="original-image">
+                    <div class="file-card-head">
+                        <span class="file-card-title">Original image</span>
+                        <span class="file-card-badge badge-in">Input</span>
+                    </div>
+                    <div class="file-card-body img-card-body">
+                        <div class="img-preview-wrap" id="orig-img-wrap">
+                            <img class="original-image-content img-preview-content" id="original-image-content" src=""
+                                alt="Original" style="display:none;">
+                            <div class="img-empty-state" id="orig-img-empty">
+                                <div class="file-lock-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#c5c9dc" stroke-width="1.5"
+                                        stroke-linecap="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="3" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <polyline points="21 15 16 10 5 21" />
+                                    </svg>
+                                </div>
+                                <div class="file-pending-text">Зображення з'явиться<br>після завантаження</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESULT IMAGE -->
+                <div class="file-card out-card" id="processed-image">
+                    <div class="file-card-head">
+                        <span class="file-card-title">Result image</span>
+                        <span class="file-card-badge badge-out">Output</span>
+                    </div>
+                    <div class="file-card-body img-card-body">
+                        <div class="img-preview-wrap">
+                            <img class="processed-image-content img-preview-content" id="processed-image-content" src=""
+                                alt="Result" style="display:none;">
+                            <div class="img-empty-state" id="result-img-empty">
+                                <div class="file-lock-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#c5c9dc" stroke-width="1.5"
+                                        stroke-linecap="round">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                </div>
+                                <div class="file-pending-text">Зображення з'явиться<br>після обробки</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="file-actions buttons-wrapper-image">
+                    <button class="file-btn file-btn-enc encrypt-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Encrypt
+                    </button>
+                    <button class="file-btn file-btn-dec decrypt-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                        </svg>
+                        Decrypt
+                    </button>
+                    <button class="file-btn file-btn-dl download-btn" id="img-dl-btn" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download
+                    </button>
+                    <button class="file-btn file-btn-rm remove-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="encrypt-error" role="alert" aria-live="assertive">Помилка при завантаженні</div>
+            <div class="encrypt-progress" aria-hidden="true">
+                <div class="encrypt-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                    aria-valuenow="0"></div>
+                <div class="encrypt-progress-label" aria-hidden="true">Обробка файлу...</div>
+            </div>
+        </section>
+        <!----------------------------------------------------------Блок обробки Аудіо--------------------------------------------------------------------------------------->
+        <section class="operation" id="encrypt-audio">
+            <div class="file-block-wrap">
+
+                <!-- AUDIO CARD -->
+                <div class="file-card in-card" id="audio-card">
+                    <div class="file-card-head">
+                        <span class="file-card-title">Audio</span>
+                        <span class="file-card-badge badge-in">Input</span>
+                    </div>
+                    <div class="file-card-body audio-card-body">
+
+                        <!-- ORIGINAL -->
+                        <div class="audio-row">
+                            <div class="audio-row-head">
+                                <div class="audio-dot-wrap">
+                                    <div class="text-dot dot-in"></div>
+                                    <span class="audio-row-title">Original Audio</span>
+                                </div>
+                                <span class="audio-duration" id="orig-duration">—</span>
+                            </div>
+                            <audio class="original-audio-content audio-player" id="original-audio-content" controls
+                                src=""></audio>
+                        </div>
+
+                        <div class="audio-separator"></div>
+
+                        <!-- RESULT -->
+                        <div class="audio-row">
+                            <div class="audio-row-head">
+                                <div class="audio-dot-wrap">
+                                    <div class="text-dot dot-out"></div>
+                                    <span class="audio-row-title">Result Audio</span>
+                                </div>
+                                <span class="audio-duration" id="result-duration">—</span>
+                            </div>
+                            <!-- Pending -->
+                            <div class="audio-pending" id="audio-result-pending">
+                                <div class="file-lock-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#c5c9dc" stroke-width="1.5"
+                                        stroke-linecap="round">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                </div>
+                                <span class="file-pending-text">
+                                    Аудіо з'явиться після обробки
+                                </span>
+                            </div>
+                            <!-- Player (прихований до шифрування) -->
+                            <audio class="processed-audio-content audio-player" id="processed-audio-content" controls
+                                style="display:none;"></audio>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="file-actions buttons-wrapper-audio">
+                    <button class="file-btn file-btn-enc encrypt-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Encrypt
+                    </button>
+                    <button class="file-btn file-btn-dec decrypt-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                        </svg>
+                        Decrypt
+                    </button>
+                    <button class="file-btn file-btn-dl download-btn" id="audio-dl-btn" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download
+                    </button>
+                    <button class="file-btn file-btn-rm remove-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="encrypt-error" role="alert" aria-live="assertive">Помилка при завантаженні</div>
+            <div class="encrypt-progress" aria-hidden="true">
+                <div class="encrypt-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                    aria-valuenow="0"></div>
+                <div class="encrypt-progress-label" aria-hidden="true">Обробка файлу...</div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
